@@ -1,0 +1,19 @@
+alphabetical-scroll-bar {
+  position: absolute;
+  right: 0;
+  z-index: 1000;
+  height: 100%;
+}
+
+.no-scrollbar-container {
+  height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  width: 100%;
+  padding-right: 17px;
+  box-sizing: content-box;
+}
+
+.disable-scroll {
+  overflow-y: hidden;
+}
