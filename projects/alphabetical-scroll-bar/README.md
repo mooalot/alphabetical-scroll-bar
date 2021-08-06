@@ -1,10 +1,10 @@
-# Alphabetical Scroll
+# Alphabetical Scroll Bar
 
-This [Github](https://github.com/mooalot/alphabetical-scroll-bar) project shows an implementation of the `alphabetical-scroll-bar` in angular using Ionic Framework. Below are images of what it can look like.
+This [Github](https://github.com/mooalot/alphabetical-scroll-bar) project shows an implementation of the `alphabetical-scroll-bar` in angular using Ionic Framework. The example can be found in `projects/example`. Below are images of what it can look like. 
 
-Not Scrolling            |  Scrolling
+Inactive Scroll Bar            |  Active Scroll Bar
 :-------------------------:|:-------------------------:
-<img src="https://github.com/mooalot/alphabetical-scroll-bar/blob/main/src/assets/image2.PNG" width="300">  |  <img src="https://github.com/mooalot/alphabetical-scroll-bar/blob/main/src/assets/image.PNG" width="300">
+<img src="https://github.com/mooalot/alphabetical-scroll-bar/tree/main/projects/example/src/assets/image2.PNG" width="300">  |  <img src="https://github.com/mooalot/alphabetical-scroll-bar/tree/main/projects/example/src/assets/image.PNG" width="300">
 
 
 The following is how to use the `alphabetical-scroll-bar`.
@@ -55,6 +55,6 @@ Here is the template for how data is passed to and from the component:
 
 **endTouch** is an eventEmitter that will emit when the user releases their finger from the scroll bar. This is used to stop any unwanted scroll glitches while the user is using the alphabetical scroll bar. See example for more information. 
 
-*You can see how all of these are used in the src/app/home folder.*
+*You can see how all of these are used in the example project on [Github](https://github.com/mooalot/alphabetical-scroll-bar).*
 
 *Also note that the `app-alphabetical-scroll` element must have a high z-index to be above dividers and other elements.

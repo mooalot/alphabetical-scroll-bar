@@ -1,27 +1,60 @@
-# Alphabeticalscroll
+# Alphabetical Scroll Bar
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
+This project contains the source code for the `alphabetical-scroll-bar` and an example of how it is used in an ionic project (`projects/example`). Here are the basics of how it works, but I strongly suggest looking through the example for how to use it. 
 
-## Development server
+Inactive Scroll Bar            |  Active Scroll Bar
+:-------------------------:|:-------------------------:
+<img src="https://github.com/mooalot/alphabetical-scroll-bar/tree/main/projects/example/src/assets/image2.PNG" width="300">  |  <img src="https://github.com/mooalot/alphabetical-scroll-bar/tree/main/projects/example/src/assets/image.PNG" width="300">
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+The following is how to use the `alphabetical-scroll-bar`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Usage
 
-## Build
+Install using npm
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+npm i alphabetical-scroll-bar
+```
+Import in your desired `module.ts`
 
-## Running unit tests
+```
+import { AlphabeticalScrollBarModule } from 'alphabetical-scroll-bar';
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+@NgModule({
+  imports: [
+    ...
+    AlphabeticalScrollBarModule
+  ],
+  ...
+})
+```
 
-## Running end-to-end tests
+Here is the template for how data is passed to and from the component:
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+```
+<app-alphabetical-scroll 
+    [letterMagnification]="Boolean" 
+    [exactX]="Boolean" 
+    [customAlphabet]="Array<string>"
+    [validLetters]="Array<string>" 
+    (letterChange)="EventEmitter<string>"
+    (endTouch)="EventEmitter<void>">
+<app-alphabetical-scroll>
+```
 
-## Further help
+**letterMagnification** defaults to `true`. This feature will create a magnification effect on the alphabetical scroll bar when the user touches it.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+**exactX** defaults to `false`. When `false`, this means the user does not have to be accurate along the x direction of the screen (after they have touched the scroll bar), meaning they can slide their finger freely along the x axis while still changing the scroll value. If set to `true`, the user will have to remain inside the scroll bar to continue navigating (I think false gives it a smoother feel).
+
+**customAlphabet** allows you to enter your own custom version of the alphabet. It defaults to an all caps alphabet. If the length is not exactly 26 characters, it will default to the all caps alphabet as well. 
+
+**validLetters** is an array of the possible letters that are available in the scrollable content. For example, if you only have 5 different letter dividers `A`, `D`, `F`, `I`, and `R`, you would want to pass these into `validLetters`. If you did not, when you tap on `Z` in the alphabetical scroll bar, nothing will happen. If you do include `validLetters`, your view would be taken to the next closest letter, which in this case is `R`. This is not a requirement, but it will make your alphabetical scroll bar much more robust.
+
+**letterChange** is an eventEmitter. Every time the user scrolls through the alphabetical scroll bar to a new letter, this emitter will output the letter (as a `string`) that the user scrolled to. This will allow you to scroll to the appropriate letter divider. The example project above shows one method of how this function can be used. You can add things like haptics in the function this calls.
+
+**endTouch** is an eventEmitter that will emit when the user releases their finger from the scroll bar. This is used to stop any unwanted scroll glitches while the user is using the alphabetical scroll bar. See example for more information. 
+
+*You can see how all of these are used in the `projects/example` folder.*
+
+*Also note that the `app-alphabetical-scroll` element must have a high z-index to be above dividers and other elements.
