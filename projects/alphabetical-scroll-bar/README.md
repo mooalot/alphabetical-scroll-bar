@@ -4,7 +4,7 @@ This [Github](https://github.com/mooalot/alphabetical-scroll-bar) project shows 
 
 Inactive Scroll Bar            |  Active Scroll Bar
 :-------------------------:|:-------------------------:
-<img src="https://github.com/mooalot/alphabetical-scroll-bar/tree/main/projects/example/src/assets/image2.PNG" width="300">  |  <img src="https://github.com/mooalot/alphabetical-scroll-bar/tree/main/projects/example/src/assets/image.PNG" width="300">
+<img src="https://github.com/mooalot/alphabetical-scroll-bar/blob/main/projects/example/src/assets/image2.PNG" width="300">  |  <img src="https://github.com/mooalot/alphabetical-scroll-bar/blob/main/projects/example/src/assets/image.PNG" width="300">
 
 
 The following is how to use the `alphabetical-scroll-bar`.
