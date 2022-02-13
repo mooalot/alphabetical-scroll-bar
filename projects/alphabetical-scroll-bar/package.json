@@ -1,7 +1,7 @@
 {
   "name": "alphabetical-scroll-bar",
   "license": "MIT",
-  "version": "2.0.2",
+  "version": "2.0.4",
   "peerDependencies": {
     "@angular/common": "^10.1.6",
     "@angular/core": "^10.1.6"

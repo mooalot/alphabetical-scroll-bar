@@ -240,9 +240,10 @@ export class AlphabeticalScrollBarComponent implements OnInit, OnDestroy {
         letterIndex = Math.ceil(index);
       }
     }
-    this.letterIndex = Math.round(
-      letterIndex * (this.visibleLetters.length / this.alphabet.length)
-    );
+    if (letterIndex)
+      this.letterIndex = Math.round(
+        letterIndex * (this.visibleLetters.length / this.alphabet.length)
+      );
 
     return letterIndex;
   }
