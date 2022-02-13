@@ -1,6 +1,6 @@
 # Alphabetical Scroll Bar
 
-This project contains the source code for the `alphabetical-scroll-bar` and an example of how it is used in an ionic project (`projects/example`). Here are the basics of how it works, but I strongly suggest looking through the example for how to use it.
+This [Github](https://github.com/mooalot/alphabetical-scroll-bar) project contains the source code for the `alphabetical-scroll-bar` and an example of how it is used in an ionic project (`projects/example`). Here are the basics of how it works, but I strongly suggest looking through the example for how to use it.
 
 |                                                     Inactive Scroll Bar                                                     |                                                     Active Scroll Bar                                                      |
 | :-------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: |
