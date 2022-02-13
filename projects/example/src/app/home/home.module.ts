@@ -7,15 +7,8 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { AlphabeticalScrollBarModule } from 'alphabetical-scroll-bar';
 
-
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    HomePageRoutingModule,
-    AlphabeticalScrollBarModule
-  ],
-  declarations: [HomePage]
+  imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule, AlphabeticalScrollBarModule],
+  declarations: [HomePage],
 })
 export class HomePageModule {}

@@ -1,16 +1,19 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Alphabetical Scroll Example
-    </ion-title>
+    <ion-title> Alphabetical Scroll Example </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="false" scrollY="false">
-
   <!-- Scroll bar -->
-  <alphabetical-scroll-bar [exactX]="false" [letterMagnification]="true" [validLetters]="letterGroups"
-    (letterChange)="goToLetterGroup($event)" (endTouch)="enableScroll()" [customAlphabet]="customAlphabet"></alphabetical-scroll-bar>
+  <alphabetical-scroll-bar
+    [exactX]="false"
+    [letterMagnification]="true"
+    [validLetters]="letterGroups"
+    [navigateOnHover]="false"
+    (letterChange)="goToLetterGroup($event)"
+    (endTouch)="enableScroll()"
+  ></alphabetical-scroll-bar>
 
   <!-- Groups of names -->
   <div [class.disable-scroll]="isScrollDisabled" class="no-scrollbar-container">
@@ -18,11 +21,10 @@
       <ion-item-divider>{{group.letterGroup}}</ion-item-divider>
       <ion-item *ngFor="let name of group.names">
         <ion-avatar>
-          <ion-icon style="height:100%; width:100%" name="person-sharp"></ion-icon>
+          <ion-icon style="height: 100%; width: 100%" name="person-sharp"></ion-icon>
         </ion-avatar>
         <ion-label slot="end">{{name}}</ion-label>
       </ion-item>
     </ion-item-group>
   </div>
-
 </ion-content>

@@ -1,0 +1,37 @@
+.container {
+  height: 100%;
+  width: 20px;
+  padding-right: 10px;
+  padding-left: 30px;
+  font-size: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .letter {
+    position: relative;
+    label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: font-size 0.1s;
+    }
+    pointer-events: none;
+    &.active {
+      font-size: 200%;
+      font-weight: 500;
+    }
+
+    &.active-neighbor-1 {
+      font-size: 175%;
+    }
+    &.active-neighbor-2 {
+      font-size: 150%;
+    }
+    &.active-neighbor-3 {
+      font-size: 125%;
+    }
+  }
+}

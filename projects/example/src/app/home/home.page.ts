@@ -13,19 +13,17 @@ const hapticsImpactLight = async () => {
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
   isScrollDisabled = false; //used to enable and disable scroll while using the scroll bar
   letterGroups: Array<string> = []; //each letter that will show up in a divider. Used for validLetters
   groups: Array<any> = []; //{ names: Array<string>, letterGroup: string }
-  customAlphabet = "a*c*e*g*i*k*m*o*q*s*u*w*y*".split(""); // A custom alphabet
 
   constructor() {
-    this.groupByName(names)
+    this.groupByName(names);
   }
 
   //used in the html file to set a unique id for each group
   getGroupId(letter: string) {
-    return `alphabet-scroll-${letter}`
+    return `alphabet-scroll-${letter}`;
   }
 
   //called upon each emitted letter change
@@ -34,7 +32,7 @@ export class HomePage {
     let elementId = `alphabet-scroll-${letter}`;
     let element = document.getElementById(elementId);
     element.scrollIntoView();
-    hapticsImpactLight();
+    // hapticsImpactLight();
   }
 
   //Disables the scroll while user is using the scroll bar
@@ -49,24 +47,22 @@ export class HomePage {
     let currentLetter = undefined;
     let currentNames = [];
 
-    sortedNames.forEach(name => {
+    sortedNames.forEach((name) => {
       let firstLetter = name.charAt(0);
       if (firstLetter != currentLetter) {
-        currentLetter = firstLetter
-        this.letterGroups.push(currentLetter)
+        currentLetter = firstLetter;
+        this.letterGroups.push(currentLetter);
 
         let newGroup = {
           letterGroup: currentLetter,
-          names: []
+          names: [],
         };
 
         currentNames = newGroup.names;
         this.groups.push(newGroup);
-
       }
 
       currentNames.push(name);
-
     });
   }
 }
