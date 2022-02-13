@@ -30,6 +30,8 @@ Install using npm
 npm i alphabetical-scroll-bar
 ```
 
+If you have issues installing, use --force or --legacy-peer-deps to install the peer dependencies
+
 Import in your desired `module.ts`
 
 ```
@@ -47,7 +49,7 @@ import { AlphabeticalScrollBarModule } from 'alphabetical-scroll-bar';
 Here is the template for how data is passed to and from the component:
 
 ```
-<app-alphabetical-scroll
+<app-alphabetical-scroll-bar
     [letterMagnification]="Boolean"
     [exactX]="Boolean"
     [customAlphabet]="Array<string>"
@@ -55,7 +57,7 @@ Here is the template for how data is passed to and from the component:
     [navigateOnHover]="Boolean"
     (letterChange)="EventEmitter<string>"
     (endTouch)="EventEmitter<void>">
-<app-alphabetical-scroll>
+<app-alphabetical-scroll-bar>
 ```
 
 **letterMagnification** defaults to `true`. This feature will create a magnification effect on the alphabetical scroll bar when the user touches it or hovers over it.
@@ -70,8 +72,8 @@ Here is the template for how data is passed to and from the component:
 
 **endTouch** is an eventEmitter that will emit when the user releases their finger from the scroll bar. This is used to stop any unwanted scroll glitches while the user is using the alphabetical scroll bar. See example for more information. (MOBILE ONLY)
 
-_You can see how all of these are used in the `projects/example` folder._
-
 **navigateOnHover** defaults to `false`. This means that the user will have to tap on the scroll bar to navigate to a new letter. If set to `true`, the user will be able to navigate to a new letter by hovering over the scroll bar. (DESKTOP ONLY)
+
+_You can see how all of these are used in the `projects/example` folder._
 
 \*Also note that the `app-alphabetical-scroll` element must have a high z-index to be above dividers and other elements.
