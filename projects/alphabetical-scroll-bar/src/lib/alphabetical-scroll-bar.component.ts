@@ -55,6 +55,8 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   private readonly _cancellationToken$: Subject<void> = new Subject();
   readonly hiddenLetterValue = '·';
 
+  //This interval can be used for fast, regular size-checks
+  //Useful, if e.g. a splitter-component resizes the scroll-bar but not the window itself
   get offsetSizeCheckInterval(): number { return this._offsetSizeCheckInterval; }
   @Input() set offsetSizeCheckInterval(value: NumberInput) {
     this._offsetSizeCheckIntervalSubscription?.unsubscribe();
