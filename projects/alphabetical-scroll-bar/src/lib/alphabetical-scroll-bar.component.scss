@@ -9,8 +9,8 @@
   //not less than 12px and not more than 20px
   font-size: min(20px, max(12px, 1vh));
 
-  //Same as font-size
-  padding: calc(min(20px, max(12px, 1vh)) + 20px) 0;
+  //Twice the font-size
+  padding: calc(2 * min(20px, max(12px, 1vh))) 0;
 
   .container {
     height: 100%;
