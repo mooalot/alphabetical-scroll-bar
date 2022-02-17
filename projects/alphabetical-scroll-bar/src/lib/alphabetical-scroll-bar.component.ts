@@ -40,12 +40,17 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   @Input() set navigateOnHover(value: BooleanInput) { this._navigateOnHover = coerceBooleanProperty(value); }
   private _navigateOnHover = false;
 
-  get letterSpacing(): number { return this._letterSpacing; }
-  @Input() set letterSpacing(value: NumberInput) {
-    this._letterSpacing = coerceNumberProperty(value);
+  get letterSpacing(): number | string | null { return this._letterSpacing; }
+  @Input() set letterSpacing(value: number | string | null) {
+    if (typeof value === 'string') {
+      this._letterSpacing = this.stringToNumber(value);
+      if (value.includes('%')) { this._letterSpacing = this._letterSpacing.toString() + '%'; }
+    }
+    else { this._letterSpacing = coerceNumberProperty(value); }
+
     this.checkVisibleLetters(true);
   }
-  private _letterSpacing = 4;
+  private _letterSpacing: number | string | null = '1.75%';
 
   @Output('letterChange') letterChange$ = new EventEmitter<string>();
   @Output('isActive') isActive$ = new EventEmitter<boolean>();
@@ -66,30 +71,9 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   private _offsetSizeCheckInterval = 0;
   private _offsetSizeCheckIntervalSubscription: Subscription;
 
-  ngAfterViewInit(): void {
-    this.onLetterSizeChange();
-    fromEvent(window, 'resize').pipe(takeUntil(this._cancellationToken$)).subscribe(() => this.checkVisibleLetters());
-  }
-
+  ngAfterViewInit(): void { fromEvent(window, 'resize').pipe(takeUntil(this._cancellationToken$)).subscribe(() => this.checkVisibleLetters()); }
   ngDoCheck(): void { this.checkVisibleLetters(); }
   ngOnDestroy() { this._cancellationToken$.next(); this._cancellationToken$.complete(); }
-
-  onLetterSizeChange(): void {
-    const letterSize = Math.round(Number(
-      getComputedStyle(this.alphabetContainer.nativeElement)
-        .getPropertyValue('font-size')
-        .match(/\d+/)[0]
-    ) * this._letterSizeFactor);
-
-    if (letterSize !== this._letterSize) {
-      this._letterSize = letterSize;
-      this.checkVisibleLetters(true);
-    }
-  }
-  private _letterSize: number;
-  //Faktor 1.14999 seams to be right for Chrome (98.0.4758.102)
-  //Maybe other browsers behave different?
-  private readonly _letterSizeFactor = 1.4999;
 
   checkVisibleLetters(force?: boolean): void {
     let height = this.alphabetContainer.nativeElement.clientHeight;
@@ -98,18 +82,28 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
     this._lastHeight = height;
 
     let newAlphabet = this.alphabet;
-    height = this._lastHeight - (Math.min(0, newAlphabet.length - 1)) * this.letterSpacing;
+    let letterSpacing = 0;
+    const letterSize = this.stringToNumber(getComputedStyle(this.alphabetContainer.nativeElement).getPropertyValue('font-size'));
+
+    //Calculate actual letter spacing
+    if (typeof this.letterSpacing === 'number') { letterSpacing = this.letterSpacing; }
+    else if (typeof this.letterSpacing === 'string') {
+      letterSpacing = this.stringToNumber(this.letterSpacing);
+      if (this.letterSpacing.endsWith('%')) { letterSpacing = height * (letterSpacing / 100); }
+    }
+
+    height = this._lastHeight - (Math.max(0, newAlphabet.length - 1)) * letterSpacing;
 
     //Remove invalid letters (if set and necessary)
-    if (!!this.validLetters && height / this._letterSize < newAlphabet.length) {
+    if (!!this.validLetters && height / letterSize < newAlphabet.length) {
       newAlphabet = this.validLetters;
-      height = this._lastHeight - (Math.min(0, newAlphabet.length - 1)) * this.letterSpacing;
+      height = this._lastHeight - (Math.max(0, newAlphabet.length - 1)) * letterSpacing;
     }
 
     //Check if there is enough free space for letters
-    this._lettersShortened = height / this._letterSize < newAlphabet.length;
+    this._lettersShortened = height / letterSize < newAlphabet.length;
     if (this._lettersShortened) {
-      const numHiddenLetters = newAlphabet.length - Math.floor(height / this._letterSize);
+      const numHiddenLetters = newAlphabet.length - Math.floor(height / letterSize);
 
       //determine how many letters to hide
       //BUG: If area gets too small, A·Z becomes A...Z - maybe rework this area?
@@ -237,5 +231,9 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
         (Math.abs(curr - visualLetterIndex) > Math.abs(prev - visualLetterIndex) ? prev : curr) :
         (Math.abs(curr - visualLetterIndex) < Math.abs(prev - visualLetterIndex) ? curr : prev)
     );
+  }
+
+  private stringToNumber(value?: string): number {
+    return Number(value?.match(/[\.\d]+/)[0]);
   }
 }
