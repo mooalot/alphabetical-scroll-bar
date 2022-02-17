@@ -1,15 +1,4 @@
-<div
-  #alphabetContainer
-  class="container"
-  (touchmove)="focusEvent($event)"
-  (touchstart)="focusEvent($event)"
-  (mouseenter)="focusEvent($event)"
-  (mousemove)="focusEvent($event,true)"
-  (click)="focusEvent($event)"
-  (mouseleave)="focusEnd()"
-  (touchend)="focusEnd()"
-  [class.cursor-pointer]="!navigateOnHover"
->
+<div #alphabetContainer class="container" [class.cursor-pointer]="!navigateOnHover">
   <div
     *ngFor="let letter of visibleLetters; let i = index"
     class="letter"
