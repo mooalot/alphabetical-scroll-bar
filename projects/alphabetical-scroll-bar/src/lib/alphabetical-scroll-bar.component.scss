@@ -1,41 +1,68 @@
-.container {
-  height: 100%;
-  width: 20px;
-  padding-right: 10px;
-  padding-left: 30px;
-  font-size: 70%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
+:host {
+  position: absolute;
+  z-index: 1000;
 
-  .letter {
-    position: relative;
-    label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      transition: font-size 0.1s;
-      -webkit-user-select: none; /* Safari */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* IE10+/Edge */
-      user-select: none; /* Standard */
-    }
-    pointer-events: none;
-    &.active {
-      font-size: 200%;
-      font-weight: 500;
+  right: -12px;
+  top: 0;
+  bottom: 0;
+
+  //not less than 12px and not more than 20px
+  font-size: min(20px, max(12px, 1vh));
+
+  //Same as font-size
+  padding: calc(min(20px, max(12px, 1vh)) + 20px) 0;
+
+  .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    &.cursor-pointer {
+      cursor: pointer;
     }
 
-    &.active-neighbor-1 {
-      font-size: 175%;
-    }
-    &.active-neighbor-2 {
-      font-size: 150%;
-    }
-    &.active-neighbor-3 {
-      font-size: 125%;
+    .letter {
+      //Increase the area for mouse hover
+      padding: 0 20px;
+      position: relative;
+
+      pointer-events: none;
+
+      transition: transform 0.2s ease-in-out;
+      transform-origin: 60%;
+
+      //Absolute positioning for letters being able to overlap
+      label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &.letter-disabled {
+        opacity: 0.3;
+      }
+
+      &.letter-is-hidden-value {
+        transform-origin: center;
+        transform: scale(2);
+      }
+
+      &:not(.letter-is-hidden-value).letter-active {
+        transform: scale(3.5);
+        z-index: 1;
+      }
+      &:not(.letter-is-hidden-value).letter-active-neighbor-1 {
+        transform: scale(1.8);
+      }
+      &:not(.letter-is-hidden-value).letter-active-neighbor-2 {
+        transform: scale(1.4);
+      }
+      &:not(.letter-is-hidden-value).letter-active-neighbor-3 {
+        transform: scale(1.1);
+      }
     }
   }
 }
