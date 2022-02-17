@@ -206,19 +206,19 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
     const top = Math.min(Math.max(0, y - this.alphabetContainer.nativeElement.getBoundingClientRect().top), height);
 
     let topRelative = (top / height) * (this.visibleLetters.length - 1);
-    this.visualLetterIndex = this.getClosestValidLetterIndex(this.visibleLetters, Math.round(topRelative), Math.round(topRelative) < topRelative);
+    const preferNext = Math.round(topRelative) < topRelative;
+    topRelative = Math.round(topRelative);
+
+    //Set visualLetterIndex to the closest valid letter
+    this.visualLetterIndex = this.getClosestValidLetterIndex(this.visibleLetters, topRelative, preferNext);
 
     if (this._lettersShortened) {
       if (this.validLetters) {
-        this.letterSelected = this.validLetters[Math.round((top / height) * (this.validLetters.length - 1))]
+        this.letterSelected = this.validLetters[Math.round((top / height) * (this.validLetters.length - 1))];
+      } else {
+        this.letterSelected = this.alphabet[this.getClosestValidLetterIndex(this.alphabet, topRelative, preferNext)];
       }
-      else {
-        this.letterSelected = this.validLetters ?
-          this.validLetters[Math.round(topRelative)] :
-          this.alphabet[this.getClosestValidLetterIndex(this.alphabet, Math.round(topRelative), Math.round(topRelative) < topRelative)];
-      }
-    }
-    else {
+    } else {
       this.letterSelected = this.visibleLetters[this.visualLetterIndex];
     }
   }
