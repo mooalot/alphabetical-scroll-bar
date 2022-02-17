@@ -1,19 +1,32 @@
 import { BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput } from '@angular/cdk/coercion';
-import { AfterViewInit, Component, DoCheck, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { fromEvent, interval, Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'alphabetical-scroll-bar',
   templateUrl: './alphabetical-scroll-bar.component.html',
   styleUrls: ['./alphabetical-scroll-bar.component.scss'],
-  //changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, OnDestroy {
 
+  constructor(private _cdr: ChangeDetectorRef) { }
+
   @ViewChild('alphabetContainer', { static: true }) alphabetContainer: ElementRef;
 
-  @Input() alphabet: Array<string> = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
-  @Input() validLetters: Array<string>;
+  get alphabet(): string[] { return this._alphabet; }
+  @Input() set alphabet(value: string[]) {
+    this._alphabet = value;
+    this.checkVisibleLetters(true);
+  }
+  private _alphabet: Array<string> = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
+
+  get validLetters(): string[] { return this._validLetters; }
+  @Input() set validLetters(value: string[]) {
+    this._validLetters = value;
+    this.checkVisibleLetters(true);
+  }
+  private _validLetters: Array<string>;
 
   get letterMagnification(): boolean { return this._letterMagnification; }
   @Input() set letterMagnification(value: BooleanInput) { this._letterMagnification = coerceBooleanProperty(value); }
@@ -28,7 +41,10 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   private _navigateOnHover = false;
 
   get letterSpacing(): number { return this._letterSpacing; }
-  @Input() set letterSpacing(value: NumberInput) { this._letterSpacing = coerceNumberProperty(value); }
+  @Input() set letterSpacing(value: NumberInput) {
+    this._letterSpacing = coerceNumberProperty(value);
+    this.checkVisibleLetters(true);
+  }
   private _letterSpacing = 4;
 
   @Output('letterChange') letterChange$ = new EventEmitter<string>();
@@ -122,6 +138,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
       newAlphabet = alphabet1.concat(alphabet2.reverse());
     }
 
+    this._cdr.markForCheck();
     this.visibleLetters = newAlphabet;
   }
   private _lastHeight: number;
@@ -151,7 +168,12 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
     return this._isComponentActive && this.letterMagnification && (this.visualLetterIndex - neightbor === i || this.visualLetterIndex + neightbor === i);
   }
 
-  focusEvent(event: any, isMouseMove?: boolean) {
+  @HostListener('mousemove', ['$event', 'true'])
+  @HostListener('mouseenter', ['$event', 'true'])
+  @HostListener('touchmove', ['$event'])
+  @HostListener('touchstart', ['$event'])
+  @HostListener('click', ['$event'])
+  focusEvent(event: MouseEvent & TouchEvent, isMouseMove?: boolean) {
     if (!this._lastEmittedActive) { this.isActive$.emit(this._lastEmittedActive = true); }
     this._isComponentActive = true;
 
@@ -164,6 +186,8 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   }
   private _lastEmittedLetter: string;
 
+  @HostListener('mouseleave')
+  @HostListener('touchend')
   focusEnd(): void {
     this.isActive$.emit(this._isComponentActive = this._lastEmittedActive = false);
   }
@@ -178,7 +202,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
     }
 
     const height = this.alphabetContainer.nativeElement.clientHeight;
-    //Letters drew outside the viewport may cause values outsize height boundries (Usage of min/max)
+    //Letters drew outside the viewport or host padding may cause values outsize height boundries (Usage of min/max)
     const top = Math.min(Math.max(0, y - this.alphabetContainer.nativeElement.getBoundingClientRect().top), height);
 
     let topRelative = (top / height) * (this.visibleLetters.length - 1);
