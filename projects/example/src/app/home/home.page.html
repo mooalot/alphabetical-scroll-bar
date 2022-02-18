@@ -6,14 +6,14 @@
 
 <ion-content [fullscreen]="false" scrollY="false">
   <!-- Scroll bar -->
-  <app-alphabetical-scroll-bar
+  <alphabetical-scroll-bar
     [exactX]="false"
     [letterMagnification]="true"
     [validLetters]="letterGroups"
-    [navigateOnHover]="false"
+    [navigateOnHover]="true"
     (letterChange)="goToLetterGroup($event)"
-    (endTouch)="enableScroll()"
-  ></app-alphabetical-scroll-bar>
+    (isActive)="!$event && enableScroll()"
+  ></alphabetical-scroll-bar>
 
   <!-- Groups of names -->
   <div [class.disable-scroll]="isScrollDisabled" class="no-scrollbar-container">

@@ -1,23 +1,14 @@
-<div
-  class="container"
-  #alphabetContainer
-  (touchmove)="touchStart($event)"
-  (touchstart)="touchMove($event)"
-  (touchend)="touchEnd()"
-  (mouseenter)="mouseEnter($event)"
-  (mousemove)="mouseMove($event)"
-  (mouseleave)="mouseLeave($event)"
-  (click)="click($event)"
->
+<div #alphabetContainer class="container" [class.cursor-pointer]="!navigateOnHover">
   <div
     *ngFor="let letter of visibleLetters; let i = index"
     class="letter"
-    [class.active]="isActive(i) && letterMagnification"
-    [class.active-neighbor-1]="isActiveNeighbor1(i) && letterMagnification"
-    [class.active-neighbor-2]="isActiveNeighbor2(i) && letterMagnification"
-    [class.active-neighbor-3]="isActiveNeighbor3(i) && letterMagnification"
-    id="{{ visibleLetters[i] }}"
+    [class.letter-disabled]="!isValid(letter)"
+    [class.letter-is-hidden-value]="letter===hiddenLetterValue"
+    [class.letter-active]="isActive(i)"
+    [class.letter-active-neighbor-1]="isActive(i,1)"
+    [class.letter-active-neighbor-2]="isActive(i,2)"
+    [class.letter-active-neighbor-3]="isActive(i,3)"
   >
-    <label>{{ letter }}</label>
+    <label>{{letter}}</label>
   </div>
 </div>
