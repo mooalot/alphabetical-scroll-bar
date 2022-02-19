@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { AlphabeticalScrollBarModule } from 'alphabetical-scroll-bar';
+import { AlphabeticalScrollBarModule } from '../../lib/alphabetical-scroll-bar.module';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule, AlphabeticalScrollBarModule],

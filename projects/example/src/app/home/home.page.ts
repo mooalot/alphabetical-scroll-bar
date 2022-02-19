@@ -31,7 +31,7 @@ export class HomePage {
     this.isScrollDisabled = true;
     let elementId = `alphabet-scroll-${letter}`;
     let element = document.getElementById(elementId);
-    element.scrollIntoView();
+    if (element) element.scrollIntoView();
     // hapticsImpactLight();
   }
 
