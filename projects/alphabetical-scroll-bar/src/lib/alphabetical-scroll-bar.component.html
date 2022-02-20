@@ -1,8 +1,11 @@
-<div #alphabetContainer class="container" [class.cursor-pointer]="!navigateOnHover">
+<div
+  #alphabetContainer
+  class="container"
+  [class.cursor-pointer]="!navigateOnHover"
+>
   <div
     *ngFor="let letter of visibleLetters; let i = index"
     class="letter"
-<<<<<<< HEAD
     [class.letter-disabled]="disableInvalidLetters && !isValid(letter)"
     [class.letter-is-hidden-value]="letter === hiddenLetterValue"
     [ngStyle]="getLetterStyle(i)"
@@ -10,15 +13,3 @@
     <label>{{ letter }}</label>
   </div>
 </div>
-=======
-    [class.letter-disabled]="!isValid(letter)"
-    [class.letter-is-hidden-value]="letter===hiddenLetterValue"
-    [class.letter-active]="isActive(i)"
-    [class.letter-active-neighbor-1]="isActive(i,1)"
-    [class.letter-active-neighbor-2]="isActive(i,2)"
-    [class.letter-active-neighbor-3]="isActive(i,3)"
-  >
-    <label>{{letter}}</label>
-  </div>
-</div>
->>>>>>> 061d6503347ee45ee231e6215c2a93b8533c5b91

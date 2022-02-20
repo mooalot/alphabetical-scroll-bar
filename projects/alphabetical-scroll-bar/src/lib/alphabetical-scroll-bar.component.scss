@@ -49,23 +49,6 @@
         transform-origin: center;
         transform: scale(2);
       }
-<<<<<<< HEAD
-=======
-
-      &:not(.letter-is-hidden-value).letter-active {
-        transform: scale(3.5);
-        z-index: 1;
-      }
-      &:not(.letter-is-hidden-value).letter-active-neighbor-1 {
-        transform: scale(1.8);
-      }
-      &:not(.letter-is-hidden-value).letter-active-neighbor-2 {
-        transform: scale(1.4);
-      }
-      &:not(.letter-is-hidden-value).letter-active-neighbor-3 {
-        transform: scale(1.1);
-      }
->>>>>>> 061d6503347ee45ee231e6215c2a93b8533c5b91
     }
   }
 }
