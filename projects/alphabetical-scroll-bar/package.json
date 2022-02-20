@@ -4,7 +4,8 @@
   "version": "2.0.5",
   "peerDependencies": {
     "@angular/common": "^10.1.6",
-    "@angular/core": "^10.1.6"
+    "@angular/core": "^10.1.6",
+    "@angular/cdk": "^13.2.3"
   },
   "dependencies": {
     "tslib": "^2.0.0"
@@ -14,6 +15,6 @@
     "alphabetical",
     "angular",
     "ngx",
-    "index-scroll-bar"
+    "index-scrollbar"
   ]
 }

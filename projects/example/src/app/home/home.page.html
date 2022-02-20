@@ -7,10 +7,18 @@
 <ion-content [fullscreen]="false" scrollY="false">
   <!-- Scroll bar -->
   <alphabetical-scroll-bar
-    [exactX]="false"
-    [letterMagnification]="true"
+    [alphabet]="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"
     [validLetters]="letterGroups"
+    [disableInvalidLetters]="false"
+    [prioritizeHidingInvalidLetters]="true"
+    [letterMagnification]="true"
+    [magnifyDividers]="true"
+    [magnificationMultiplier]="2"
+    [magnificationCurve]="[1, .7, .6, .4, .2, 0]"
+    [exactX]="false"
     [navigateOnHover]="true"
+    [letterSpacing]="'1%'"
+    [offsetSizeCheckInterval]="100"
     (letterChange)="goToLetterGroup($event)"
     (isActive)="!$event && enableScroll()"
   ></alphabetical-scroll-bar>

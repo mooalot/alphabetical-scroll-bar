@@ -2,13 +2,10 @@
   <div
     *ngFor="let letter of visibleLetters; let i = index"
     class="letter"
-    [class.letter-disabled]="!isValid(letter)"
-    [class.letter-is-hidden-value]="letter===hiddenLetterValue"
-    [class.letter-active]="isActive(i)"
-    [class.letter-active-neighbor-1]="isActive(i,1)"
-    [class.letter-active-neighbor-2]="isActive(i,2)"
-    [class.letter-active-neighbor-3]="isActive(i,3)"
+    [class.letter-disabled]="disableInvalidLetters && !isValid(letter)"
+    [class.letter-is-hidden-value]="letter === hiddenLetterValue"
+    [ngStyle]="getLetterStyle(i)"
   >
-    <label>{{letter}}</label>
+    <label>{{ letter }}</label>
   </div>
 </div>
