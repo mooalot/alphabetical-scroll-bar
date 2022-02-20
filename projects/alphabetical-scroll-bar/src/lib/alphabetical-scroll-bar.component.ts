@@ -1,9 +1,4 @@
-import {
-  BooleanInput,
-  coerceBooleanProperty,
-  coerceNumberProperty,
-  NumberInput,
-} from '@angular/cdk/coercion';
+import { BooleanInput, coerceBooleanProperty, coerceNumberProperty, NumberInput } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -33,11 +28,11 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   @ViewChild('alphabetContainer', { static: true })
   alphabetContainer: ElementRef;
 
-  get alphabet(): string[] {
+  get alphabet(): any {
     return this._alphabet;
   }
   //A custom alphabet to be used instead of the default alphabet. Default is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  @Input() set alphabet(value) {
+  @Input() set alphabet(value: any) {
     if (typeof value === 'string') this._alphabet = [...value];
     else if (Array.isArray(value) && value.every((it) => typeof it === 'string')) this._alphabet = value;
     else throw new Error('alphabet must be a string or an array of strings');
@@ -46,7 +41,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   }
   private _alphabet: Array<string> = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 
-  get overflowDivider(): string {
+  get overflowDivider(): string | undefined | null {
     return this._overflowDivider;
   }
   //A custom overflow divider. Can be undefined or null if you don't want to use one. Defaults to '·'
@@ -67,7 +62,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   }
   private _validLetters: Array<string> = this._alphabet;
 
-  get disableInvalidLetters(): boolean {
+  get disableInvalidLetters(): BooleanInput {
     return this._disableInvalidLetters;
   }
   //Whether or invalid letters should be disabled (greyed out and do not magnify)
@@ -77,7 +72,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   }
   private _disableInvalidLetters = false;
 
-  get prioritizeHidingInvalidLetters(): boolean {
+  get prioritizeHidingInvalidLetters(): BooleanInput {
     return this._prioritizeHidingInvalidLetters;
   }
   //Whether or invalid letters should be disabled (greyed out and do not magnify)
@@ -87,7 +82,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   }
   private _prioritizeHidingInvalidLetters = false;
 
-  get letterMagnification(): boolean {
+  get letterMagnification(): BooleanInput {
     return this._letterMagnification;
   }
   //Whether or not letters should be magnified
@@ -96,7 +91,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   }
   private _letterMagnification = true;
 
-  get magnifyDividers(): boolean {
+  get magnifyDividers(): BooleanInput {
     return this._magnifyDividers;
   }
   //Whether or not overflow diveders should be magnified
@@ -120,14 +115,13 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   }
   //Magnification curve accepts an array of numbers between 1 and 0 that represets the curve of magnification starting from magnificaiton multiplier to 1: defaults to [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]
   @Input() set magnificationCurve(value: Array<number>) {
-    if (Array.isArray(value) && value.every((it) => typeof it === 'number' && it >= 0 && it <= 1))
-      this._magnificationCurve = value.sort((a, b) => b - a);
+    if (Array.isArray(value) && value.every((it) => typeof it === 'number' && it >= 0 && it <= 1)) this._magnificationCurve = value;
     else throw new Error('magnificationCurve must be an array of numbers between 0 and 1');
   }
 
   private _magnificationCurve = [1, 0.7, 0.5, 0.3, 0.1];
 
-  get exactX(): boolean {
+  get exactX(): BooleanInput {
     return this._exactX;
   }
   //If the scrolling for touch screens in the x direction should be lenient. Default is false
@@ -136,7 +130,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   }
   private _exactX = false;
 
-  get navigateOnHover(): boolean {
+  get navigateOnHover(): BooleanInput {
     return this._navigateOnHover;
   }
   //Whether or not letter change event is emitted on mouse hover. Default is false
@@ -173,7 +167,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
 
   private readonly _cancellationToken$: Subject<void> = new Subject();
 
-  get offsetSizeCheckInterval(): number {
+  get offsetSizeCheckInterval(): NumberInput {
     return this._offsetSizeCheckInterval;
   }
   //This interval can be used for fast, regular size-checks
@@ -212,9 +206,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
 
     let newAlphabet = this.alphabet;
     let letterSpacing = 0;
-    let letterSize = this.stringToNumber(
-      getComputedStyle(this.alphabetContainer.nativeElement).getPropertyValue('font-size')
-    );
+    let letterSize = this.stringToNumber(getComputedStyle(this.alphabetContainer.nativeElement).getPropertyValue('font-size'));
 
     if (this.letterMagnification) {
       letterSize = letterSize * this.magnificationMultiplier;
@@ -233,11 +225,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
     letterSize = letterSize + letterSpacing;
 
     //Remove invalid letters (if set and necessary)
-    if (
-      this.prioritizeHidingInvalidLetters &&
-      !!this.validLetters &&
-      height / letterSize < newAlphabet.length
-    ) {
+    if (this.prioritizeHidingInvalidLetters && !!this.validLetters && height / letterSize < newAlphabet.length) {
       newAlphabet = this.validLetters;
     }
 
@@ -311,14 +299,10 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
     const mappedIndex = Math.round((index / this.visibleLetters.length) * lettersOnly.length);
     const mappedMagIndex = Math.round((this.magIndex / this.visibleLetters.length) * lettersOnly.length);
 
-    let relativeIndex = this.magnifyDividers
-      ? Math.abs(this.magIndex - index)
-      : Math.abs(mappedMagIndex - mappedIndex);
+    let relativeIndex = this.magnifyDividers ? Math.abs(this.magIndex - index) : Math.abs(mappedMagIndex - mappedIndex);
 
     const magnification =
-      relativeIndex < this.magnificationCurve.length - 1
-        ? this.magnificationCurve[relativeIndex] * (this.magnificationMultiplier - 1) + 1
-        : 1;
+      relativeIndex < this.magnificationCurve.length - 1 ? this.magnificationCurve[relativeIndex] * (this.magnificationMultiplier - 1) + 1 : 1;
     const style: any = {
       transform: `scale(${magnification})`,
       zIndex: this.magIndex === index ? 1 : 0,
@@ -339,15 +323,9 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
     if (type == 'click') this._isComponentActive = false;
     else this._isComponentActive = true;
 
-    this.setLetterFromCoordinates(
-      event.touches?.[0].clientX ?? event.clientX,
-      event.touches?.[0].clientY ?? event.clientY
-    );
+    this.setLetterFromCoordinates(event.touches?.[0].clientX ?? event.clientX, event.touches?.[0].clientY ?? event.clientY);
 
-    if (
-      this._lastEmittedLetter !== this.letterSelected &&
-      (this.navigateOnHover || !type.includes('mouse'))
-    ) {
+    if (this._lastEmittedLetter !== this.letterSelected && (this.navigateOnHover || !type.includes('mouse'))) {
       this.letterChange$.emit((this._lastEmittedLetter = this.letterSelected));
     }
   }
@@ -375,10 +353,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
 
     const height = this.alphabetContainer.nativeElement.clientHeight;
     //Letters drew outside the viewport or host padding may cause values outsize height boundries (Usage of min/max)
-    const top = Math.min(
-      Math.max(0, y - this.alphabetContainer.nativeElement.getBoundingClientRect().top),
-      height
-    );
+    const top = Math.min(Math.max(0, y - this.alphabetContainer.nativeElement.getBoundingClientRect().top), height);
 
     let topRelative = (top / height) * (this.visibleLetters.length - 1);
     const preferNext = Math.round(topRelative) < topRelative;
@@ -393,8 +368,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
       if (this.validLetters) {
         this.letterSelected = this.validLetters[Math.round((top / height) * (this.validLetters.length - 1))];
       } else {
-        this.letterSelected =
-          this.alphabet[this.getClosestValidLetterIndex(this.alphabet, topRelative, preferNext)];
+        this.letterSelected = this.alphabet[this.getClosestValidLetterIndex(this.alphabet, topRelative, preferNext)];
       }
     } else {
       this.letterSelected = this.visibleLetters[this.visualLetterIndex];
@@ -403,11 +377,7 @@ export class AlphabeticalScrollBarComponent implements AfterViewInit, DoCheck, O
   visualLetterIndex: number;
   letterSelected: string;
 
-  private getClosestValidLetterIndex(
-    alphabet: string[],
-    visualLetterIndex: number,
-    preferNext: boolean
-  ): number {
+  private getClosestValidLetterIndex(alphabet: string[], visualLetterIndex: number, preferNext: boolean): number {
     const lowercaseAlphabet = alphabet.map((l) => l.toLowerCase());
     const lowercaseValidLetters = this.validLetters.map((l) => l.toLowerCase());
     const validLettersAsNumbers = lowercaseValidLetters.map((l) => lowercaseAlphabet.indexOf(l));
