@@ -15,6 +15,10 @@
     "alphabetical",
     "angular",
     "ngx",
+<<<<<<< HEAD
     "index-scrollbar"
+=======
+    "index-scroll-bar"
+>>>>>>> 061d6503347ee45ee231e6215c2a93b8533c5b91
   ]
 }
